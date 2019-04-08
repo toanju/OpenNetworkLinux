@@ -264,7 +264,7 @@ onlp_sys_platform_manage_stop(int block)
     if(control__.eventfd > 0) {
         uint64_t zero = 1;
         /* Tell the thread to exit */
-        write(control__.eventfd, &zero, sizeof(zero));
+        (void)!write(control__.eventfd, &zero, sizeof(zero));
 
         if(block) {
             onlp_sys_platform_manage_join();

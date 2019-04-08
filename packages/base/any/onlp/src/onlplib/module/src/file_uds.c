@@ -54,13 +54,15 @@ static void
 eventfd_write__(int fd)
 {
     uint64_t val = 1;
-    write(fd, &val, sizeof(val));
+    ssize_t ignored __attribute__((unused));
+    ignored = write(fd, &val, sizeof(val));
 }
 static void
 eventfd_read__(int fd)
 {
     uint64_t val;
-    read(fd, &val, sizeof(val));
+    ssize_t ignored __attribute__((unused));
+    ignored = read(fd, &val, sizeof(val));
 }
 
 
