@@ -262,7 +262,7 @@ onlp_sfpi_rx_los_bitmap_get(onlp_sfp_bitmap_t* dst)
 {
     int status;
     int   port,i = 0;
-	uint64_t rx_los_all;
+	uint64_t rx_los_all = 0;
 
 
 	if(platform_id == PLATFORM_ID_DELTA_AG7648_R0)
