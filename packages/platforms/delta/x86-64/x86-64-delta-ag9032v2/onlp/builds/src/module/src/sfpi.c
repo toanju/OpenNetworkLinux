@@ -170,7 +170,7 @@ onlp_sfpi_is_present(int port)
         present = 1;
     } else if (present_bit == 1) {
         present = 0;
-        AIM_LOG_ERROR("Unble to present status from port(%d)\r\n", port);
+        AIM_LOG_ERROR("Unable to present status from port(%d)\r\n", port);
     } else {
 	/* Port range over 0-31 and 32-33, return -1 */
         AIM_LOG_ERROR("Error to present status from port(%d)\r\n", port);

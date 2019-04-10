@@ -106,7 +106,7 @@ onlp_sfpi_is_present(int port)
         present = 1;
     } else if (present_val == 1) {
         present = 0;
-        AIM_LOG_ERROR("Unble to present status from port(%d)\r\n", port);
+        AIM_LOG_ERROR("Unable to present status from port(%d)\r\n", port);
     } else {
         AIM_LOG_ERROR("Error to present status from port(%d)\r\n", port);
         present = -1;
