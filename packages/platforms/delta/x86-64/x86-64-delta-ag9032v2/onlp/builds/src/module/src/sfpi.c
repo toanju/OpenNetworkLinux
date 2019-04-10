@@ -217,7 +217,7 @@ onlp_sfpi_presence_bitmap_get(onlp_sfp_bitmap_t* dst)
     byte_get = onlp_i2c_readb(I2C_BUS_1, SWPLD_1_ADDR, SFP_PRESENT_4, ONLP_I2C_F_TENBIT);
     if(byte_get < 0)return ONLP_STATUS_E_GENERIC;
     bytes[3] = (~byte_get) & 0xFF;
-    sprintf(present_all_data + 9, "%x%c", byte_get, '\0');
+    sprintf(present_all_data + 9, "%x", byte_get);
 
     /* String split */
     r_byte = strtok(present_all_data, " ");

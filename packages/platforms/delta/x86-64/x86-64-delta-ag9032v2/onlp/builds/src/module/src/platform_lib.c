@@ -42,7 +42,7 @@ int dni_get_bmc_data(char *device_name, UINT4 *num, UINT4 multiplier)
         pclose(fpRead);
                 return ONLP_STATUS_E_GENERIC;
     }
-    fgets(Buf, lenth , fpRead);
+    (void)!fgets(Buf, lenth , fpRead);
     num_f = atof( Buf );
     *num = num_f * multiplier;
     pclose(fpRead);

@@ -62,7 +62,7 @@ onlp_psui_info_get(onlp_oid_t id, onlp_psu_info_t* info)
     UINT4 multiplier = 1000;
     UINT4 u4Data     = 0;
 
-    char device_name[10]  = {0};
+    char device_name[20]  = {0};
     char module_name[20]  = {0};
     char *module_name_ptr = module_name;
     
