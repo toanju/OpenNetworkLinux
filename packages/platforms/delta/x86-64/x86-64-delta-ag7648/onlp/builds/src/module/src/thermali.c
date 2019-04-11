@@ -61,7 +61,7 @@ static char* last_path[] =  /* must map with onlp_thermal_id */
     "3-004d/hwmon/hwmon3/temp1_input",
     "3-004e/hwmon/hwmon4/temp1_input",
 };
-	
+
 /* Static values */
 static onlp_thermal_info_t linfo[] = {
 	{ }, /* Not used */
@@ -111,7 +111,7 @@ _onlp_psu_thermali_val_to_temperature (int v,int mult)
  */
 int
 onlp_thermali_init(void)
-{ 
+{
     return ONLP_STATUS_OK;
 }
 
@@ -130,21 +130,21 @@ _onlp_thermali_info_get(int id, onlp_thermal_info_t* info)
 {
     int   len, nbytes = 10, temp_base=1, local_id;
     uint8_t r_data[10]={0};
-    char  fullpath[50] = {0};
+    char  fullpath[PATH_MAX] = {0};
 
     local_id = id;
-    
+
     DEBUG_PRINT("\n[Debug][%s][%d][local_id: %d]", __FUNCTION__, __LINE__, local_id);
     /* Set the onlp_oid_hdr_t and capabilities */
     *info = linfo[local_id];
     /* get fullpath */
-    sprintf(fullpath, "%s%s", prefix_path, last_path[local_id]);
+    snprintf(fullpath, PATH_MAX-1, "%s%s", prefix_path, last_path[local_id]);
 
     //OPEN_READ_FILE(fd, fullpath, r_data, nbytes, len);
     onlp_file_read(r_data,nbytes,&len, fullpath);
-    
+
     info->mcelsius =ONLPLIB_ATOI((char*)r_data) / temp_base;
-    
+
     DEBUG_PRINT("\n[Debug][%s][%d][save data: %d]\n", __FUNCTION__, __LINE__, info->mcelsius);
 
     return ONLP_STATUS_OK;
@@ -153,16 +153,16 @@ _onlp_thermali_info_get(int id, onlp_thermal_info_t* info)
 /*psu temperture info get*/
 static int
 _onlp_thermali_psu_info_get(int id, onlp_thermal_info_t* info)
-{   
+{
     int psu_present,psu_good;
     int psu_id,local_id;
     int r_data,temperature_v;
     enum ag7648_product_id pid;
-    
+
     local_id=id;
-    
+
     DEBUG_PRINT("\n[Debug][%s][%d][local_id: %d]", __FUNCTION__, __LINE__, local_id);
-    
+
     psu_id=(local_id-THERMAL_1_ON_PSU1)+1;
     pid=get_product_id();
     //if the psu is not, directly to return
@@ -177,7 +177,7 @@ _onlp_thermali_psu_info_get(int id, onlp_thermal_info_t* info)
 		return ONLP_STATUS_OK;
 	}
 
-    //read the pus temperture register value     
+    //read the psu temperture register value
     if(pid == PID_AG7648){
         if(psu_id==1)
             r_data=i2c_devname_read_word("PSU1_PMBUS", 0x8d);
@@ -203,14 +203,14 @@ _onlp_thermali_psu_info_get(int id, onlp_thermal_info_t* info)
 
 int
 onlp_thermali_info_get(onlp_oid_t id, onlp_thermal_info_t* info)
-{   
+{
     int rc;
     int local_id;
 
     VALIDATE(id);
 
     local_id=ONLP_OID_ID_GET(id);
-	
+
 	if((local_id > THERMAL_1_ON_PSU2) || (local_id < THERMAL_1_CLOSE_TO_CPU)){
 		DEBUG_PRINT("\n[Debug][%s][%d][outside addr:%d]", __FUNCTION__, __LINE__, local_id);
 		return ONLP_STATUS_E_INVALID;
@@ -223,6 +223,6 @@ onlp_thermali_info_get(onlp_oid_t id, onlp_thermal_info_t* info)
 		rc= _onlp_thermali_psu_info_get(local_id,info);
 	else
         rc= _onlp_thermali_info_get(local_id,info);
-    
+
 	return rc;
 }

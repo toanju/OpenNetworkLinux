@@ -318,7 +318,7 @@ onlp_sfpi_eeprom_read(int port, uint8_t data[256])
 
 	if (port < SFP_PLUS_MIN_PORT || port > QSFP_MAX_PORT)
     {
-        AIM_LOG_ERROR("port %d is not invalid\r\n", port);
+        AIM_LOG_ERROR("port %d is not valid\r\n", port);
         return ONLP_STATUS_E_INVALID;
     }
     if (onlp_sfpi_is_present(port) <= 0)
